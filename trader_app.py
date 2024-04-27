@@ -91,9 +91,11 @@ while count < 100:
     else:
         pass
     count += 1
-    time.sleep(0.9999)
+    time.sleep(1)
+
 print(last_digit)
 print(last_two_values)
 time.sleep(10)
+
 # Close the browser window
 driver.quit()
