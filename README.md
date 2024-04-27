@@ -1,1 +1,1 @@
-# A trader test for D*r*i*v*e
+# A trader test for D_r_i_v_e
