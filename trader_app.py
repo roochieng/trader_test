@@ -89,7 +89,7 @@ while count < 100:
         if len(last_two_values) > 2:
             last_two_values.pop()
     else:
-        continue
+        pass
     count += 1
     time.sleep(0.9999)
 print(last_digit)
