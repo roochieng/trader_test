@@ -58,6 +58,7 @@ password_input.send_keys(os.environ.get('PASSWORD'))
 # Submit the form
 submit_button.click()
 time.sleep(5)
+
 new_file = 'data.txt'
 last_digit = []
 last_two_values = [0, 1]
