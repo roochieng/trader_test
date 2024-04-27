@@ -21,7 +21,7 @@ today_date = datetime.today().strftime('%Y-%m-%d')
 url = os.environ.get('URL')
 
 # Set the path to your ChromeDriver executable
-chrome_driver_path = "C:/Users/Me/Desktop/Test/chromedriver-win64/chromedriver.exe"
+chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
 
 # Create Chrome options
 chrome_options = Options()
@@ -59,6 +59,36 @@ password_input.send_keys(os.environ.get('PASSWORD'))
 submit_button.click()
 time.sleep(5)
 
+# Click on demo
+account_switch = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "acc_switcher")))
+account_switch.click()
+time.sleep(1)
+demo_switch = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.LINK_TEXT, "Demo")))
+demo_switch.click()
+
+demo = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f'div[data-value="VRTC10415542"]')))
+demo.click()
+time.sleep(5)
+
+
+# Get Account balance
+balance_div = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'header__acc-balance')))
+balance_text = balance_div.text
+balance_value = balance_text.split()[0]
+balance_value = balance_value.replace(',', '')
+balance_value = float(balance_value)
+print(balance_value)
+
+
+# Update stake
+amount_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'amount')))
+amount_input.clear()
+new_text = int(balance_value) // 5
+amount_input.send_keys(new_text)
+
+time.sleep(5)
+
+
 # file and data storage
 new_file = 'data.txt'
 last_digit = []
@@ -66,11 +96,10 @@ last_two_values = [0, 1]
 
 count = 0
 while count < 100:
-    if last_two_values[0] != last_two_values[1]:
-        spot_span = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.ID, 'spot')))
-
-        trade_value = spot_span.get_attribute('data-value')
+    spot_span = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.ID, 'spot')))
+    trade_value = spot_span.get_attribute('data-value')
+    if trade_value != last_two_values[0]:
         last_two_values.insert(0, trade_value)
         decimal_part = abs(float(trade_value)) % 1
         decimal_part = round(decimal_part, 3)
@@ -89,13 +118,9 @@ while count < 100:
             last_digit.pop()
         if len(last_two_values) > 2:
             last_two_values.pop()
-    else:
-        pass
-    count += 1
-    time.sleep(1)
 
-print(last_digit)
-print(last_two_values)
+        count += 1
+
 time.sleep(10)
 
 # Close the browser window
