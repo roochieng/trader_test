@@ -130,12 +130,16 @@ while count < 50000:
         if int(last_digit[0]) == 0 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0:
             purchase()
             close_bet_window()
-            print("purchased successfuly")
+            with open(new_file, 'a') as file:
+                file.write(f'purchased: {last_digit}\n')
+        elif int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[2]) < 2:
+            purchase()
+            close_bet_window()
             with open(new_file, 'a') as file:
                 file.write(f'purchased: {last_digit}\n')
         with open(new_file, 'a') as file:
             file.write(f'{second_digit}\n')
-        if len(last_digit) > 3:
+        if len(last_digit) > 4:
             last_digit.pop()
         if len(last_two_values) > 2:
             last_two_values.pop()
