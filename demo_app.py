@@ -132,7 +132,7 @@ while count < 50000:
             close_bet_window()
             with open(new_file, 'a') as file:
                 file.write(f'purchased: {last_digit}\n')
-        elif int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[2]) < 2:
+        elif int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2:
             purchase()
             close_bet_window()
             with open(new_file, 'a') as file:
