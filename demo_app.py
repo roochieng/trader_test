@@ -60,7 +60,6 @@ submit_button.click()
 time.sleep(5)
 
 # Click on demo
-"""
 account_switch = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "acc_switcher")))
 account_switch.click()
 time.sleep(1)
@@ -69,7 +68,7 @@ demo_switch.click()
 
 demo = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f'div[data-value="VRTC10415542"]')))
 demo.click()
-"""
+time.sleep(5)
 
 
 # Get Account balance
