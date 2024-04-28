@@ -127,7 +127,7 @@ while count < 50000:
             second_digit = 0
         print(second_digit)
         last_digit.insert(0, second_digit)
-        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2:
+        if int(last_digit[0]) == 0 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0:
             purchase()
             close_bet_window()
             print("purchased successfuly")
