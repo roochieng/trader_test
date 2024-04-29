@@ -72,20 +72,23 @@ time.sleep(5)
 
 
 # Get Account balance
-balance_div = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'header__acc-balance')))
-balance_text = balance_div.text
-balance_value = balance_text.split()[0]
-balance_value = balance_value.replace(',', '')
-balance_value = float(balance_value)
-print(balance_value)
+def get_account_balance():
+    balance_div = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'header__acc-balance')))
+    balance_text = balance_div.text
+    balance_value = balance_text.split()[0]
+    balance_value = balance_value.replace(',', '')
+    balance_value = float(balance_value)
+    return balance_value
 
 
 # Update stake
-amount_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'amount')))
-amount_input.clear()
-new_text = int(balance_value) // 10
-amount_input.send_keys(new_text)
+def update_stake(balance):
+    amount_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'amount')))
+    amount_input.clear()
+    new_text = int(balance) // 10
+    amount_input.send_keys(new_text)
 
+update_stake(get_account_balance())
 time.sleep(5)
 
 
@@ -105,7 +108,7 @@ def close_bet_window():
         print(f"Failed to click the element: {str(e)}")
 
 # file and data storage
-new_file = 'data.txt'
+new_file = f"demo_data_{today_date}.txt"
 last_digit = [3, 10, 20]
 last_two_values = [0, 1]
 
@@ -127,12 +130,12 @@ while count < 50000:
             second_digit = 0
         print(second_digit)
         last_digit.insert(0, second_digit)
-        if int(last_digit[0]) == 0 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0:
-            purchase()
-            close_bet_window()
-            with open(new_file, 'a') as file:
-                file.write(f'purchased: {last_digit}\n')
-        elif int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2:
+        # if int(last_digit[0]) == 0 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0:
+        #     purchase()
+        #     close_bet_window()
+        #     with open(new_file, 'a') as file:
+        #         file.write(f'purchased: {last_digit}\n')
+        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2:
             purchase()
             close_bet_window()
             with open(new_file, 'a') as file:

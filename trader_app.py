@@ -1,17 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
 import time
 import os
 from dotenv import load_dotenv
 from datetime import datetime
-import pandas as pd
-from plyer import notification
 
 
 load_dotenv()
@@ -38,7 +34,6 @@ driver.get(url)
 
 
 # Get logins
-
 login_button = WebDriverWait(driver, 10).until(
     EC.element_to_be_clickable((By.ID, 'btn__login')))
 login_button.click()
@@ -59,34 +54,25 @@ password_input.send_keys(os.environ.get('PASSWORD'))
 submit_button.click()
 time.sleep(5)
 
-# Click on demo
-"""
-account_switch = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "acc_switcher")))
-account_switch.click()
-time.sleep(1)
-demo_switch = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.LINK_TEXT, "Demo")))
-demo_switch.click()
-
-demo = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, f'div[data-value="VRTC10415542"]')))
-demo.click()
-"""
-
 
 # Get Account balance
-balance_div = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'header__acc-balance')))
-balance_text = balance_div.text
-balance_value = balance_text.split()[0]
-balance_value = balance_value.replace(',', '')
-balance_value = float(balance_value)
-print(balance_value)
+def get_account_balance():
+    balance_div = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'header__acc-balance')))
+    balance_text = balance_div.text
+    balance_value = balance_text.split()[0]
+    balance_value = balance_value.replace(',', '')
+    balance_value = float(balance_value)
+    return balance_value
 
 
 # Update stake
-amount_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'amount')))
-amount_input.clear()
-new_text = int(balance_value) // 10
-amount_input.send_keys(new_text)
+def update_stake(balance):
+    amount_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'amount')))
+    amount_input.clear()
+    new_text = int(balance) // 4
+    amount_input.send_keys(new_text)
 
+update_stake(get_account_balance())
 time.sleep(5)
 
 
@@ -106,10 +92,12 @@ def close_bet_window():
         print(f"Failed to click the element: {str(e)}")
 
 # file and data storage
-new_file = 'data.txt'
+new_file = f"demo_data_{today_date}.txt"
 last_digit = [3, 10, 20]
 last_two_values = [0, 1]
 
+loses = 0
+wins = 0
 count = 0
 while count < 50000:
     spot_span = WebDriverWait(driver, 10).until(
@@ -128,18 +116,30 @@ while count < 50000:
             second_digit = 0
         print(second_digit)
         last_digit.insert(0, second_digit)
-        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2:
+        # if int(last_digit[0]) == 0 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0:
+        #     purchase()
+        #     close_bet_window()
+        #     with open(new_file, 'a') as file:
+        #         file.write(f'purchased: {last_digit}\n')
+        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]):
             purchase()
             close_bet_window()
-            print("purchased successfuly")
             with open(new_file, 'a') as file:
                 file.write(f'purchased: {last_digit}\n')
         with open(new_file, 'a') as file:
             file.write(f'{second_digit}\n')
-        if len(last_digit) > 3:
+        if len(last_digit) > 6:
             last_digit.pop()
         if len(last_two_values) > 2:
             last_two_values.pop()
+        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) < 2:
+            wins += 1
+            print(f"Number of wins: {wins}")
+        else:
+            loses  += 1
+            print(f"Number of loses: {loses}")
+        if wins >= 3 and loses == 0 or wins // loses <= 3:
+            break
         count += 1
 
 time.sleep(10)
