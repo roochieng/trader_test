@@ -135,7 +135,7 @@ while count < 50000:
         if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) < 2:
             wins += 1
             print(f"Number of wins: {wins}")
-        else:
+        elif int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) >= 2:
             loses  += 1
             print(f"Number of loses: {loses}")
         if wins >= 3 and loses == 0 or wins // loses <= 3:
