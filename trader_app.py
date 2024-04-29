@@ -121,28 +121,34 @@ while count < 50000:
         #     close_bet_window()
         #     with open(new_file, 'a') as file:
         #         file.write(f'purchased: {last_digit}\n')
-        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]):
+        with open(new_file, 'a') as file:
+            file.write(f'{second_digit}\n')
+        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2:
             purchase()
             close_bet_window()
             with open(new_file, 'a') as file:
                 file.write(f'purchased: {last_digit}\n')
-        with open(new_file, 'a') as file:
-            file.write(f'{second_digit}\n')
         if len(last_digit) > 6:
             last_digit.pop()
         if len(last_two_values) > 2:
             last_two_values.pop()
         if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) < 2:
-            wins += 1
-            print(f"Number of wins: {wins}")
+            loses += 1
+            print(f"Number of wins: {loses}")
+            with open(new_file, 'a') as file:
+                file.write(f"Number of wins: {loses}\n")
         elif int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) >= 2:
-            loses  += 1
-            print(f"Number of loses: {loses}")
-        if wins >= 3 and loses == 0 or wins // loses <= 3:
-            break
+            wins  += 1
+            print(f"Number of loses: {wins}")
+            with open(new_file, 'a') as file:
+                file.write(f"Number of wins: {wins}\n")
+        try:
+            if (wins >= 3 and loses == 0) or wins // loses <= 3:
+                break
+        except ZeroDivisionError:
+            continue
         count += 1
 
-time.sleep(10)
 
 # Close the browser window
 driver.quit()
