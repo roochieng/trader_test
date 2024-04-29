@@ -69,7 +69,7 @@ def get_account_balance():
 def update_stake(balance):
     amount_input = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'amount')))
     amount_input.clear()
-    new_text = int(balance) // 4
+    new_text = int(balance) // 3
     amount_input.send_keys(new_text)
 
 update_stake(get_account_balance())
