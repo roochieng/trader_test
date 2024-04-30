@@ -131,12 +131,12 @@ while count < 50000:
             last_two_values.pop()
         if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) < 2:
             loses += 1
-            print(f"Number of wins: {loses}")
+            print(f"Number of loses: {loses}")
             with open(new_file, 'a') as file:
-                file.write(f"Number of wins: {loses}\n")
+                file.write(f"Number of loses: {loses}\n")
         elif int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) >= 2:
             wins  += 1
-            print(f"Number of loses: {wins}")
+            print(f"Number of wins: {wins}")
             with open(new_file, 'a') as file:
                 file.write(f"Number of wins: {wins}\n")
         try:
@@ -146,6 +146,6 @@ while count < 50000:
             continue
         count += 1
 
-
+time.sleep(5)
 # Close the browser window
 driver.quit()
