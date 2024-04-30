@@ -17,13 +17,15 @@ today_date = datetime.today().strftime('%Y-%m-%d')
 url = os.environ.get('URL')
 
 # Set the path to your ChromeDriver executable
-chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
+chrome_driver_path = "/home/me/Dependancies/chromedriver-linux64/chromedriver"
 
 # Create Chrome options
 chrome_options = Options()
+chrome_options.add_argument('--no-sandbox')
 
 # Open chrome in background mode
 # chrome_options.add_argument("--headless")
+
 
 # Create a Chrome webdriver with options
 service = ChromeService(executable_path=chrome_driver_path)
@@ -116,11 +118,6 @@ while count < 50000:
             second_digit = 0
         print(second_digit)
         last_digit.insert(0, second_digit)
-        # if int(last_digit[0]) == 0 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0:
-        #     purchase()
-        #     close_bet_window()
-        #     with open(new_file, 'a') as file:
-        #         file.write(f'purchased: {last_digit}\n')
         with open(new_file, 'a') as file:
             file.write(f'{second_digit}\n')
         if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2:
