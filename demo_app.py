@@ -21,7 +21,7 @@ today_date = datetime.today().strftime('%Y-%m-%d')
 url = os.environ.get('URL')
 
 # Set the path to your ChromeDriver executable
-chrome_driver_path = "E:/Development/chromedriver-win64/chromedriver.exe"
+chrome_driver_path = "/home/me/Dependancies/chromedriver-linux64/chromedriver"
 
 # Create Chrome options
 chrome_options = Options()
@@ -108,7 +108,7 @@ def close_bet_window():
         print(f"Failed to click the element: {str(e)}")
 
 # file and data storage
-new_file = f"demo_data_{today_date}.txt"
+new_file = f"app_demo_data_{today_date}.txt"
 last_digit = [3, 10, 20]
 last_two_values = [0, 1]
 
@@ -132,30 +132,34 @@ while count < 50000:
             second_digit = 0
         print(second_digit)
         last_digit.insert(0, second_digit)
-        # if int(last_digit[0]) == 0 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0:
-        #     purchase()
-        #     close_bet_window()
-        #     with open(new_file, 'a') as file:
-        #         file.write(f'purchased: {last_digit}\n')
-        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]):
+        with open(new_file, 'a') as file:
+            file.write(f'trade value: {last_two_values[0]}, last digit: {second_digit}\n')
+        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2:
             purchase()
             close_bet_window()
             with open(new_file, 'a') as file:
                 file.write(f'purchased: {last_digit}\n')
-        with open(new_file, 'a') as file:
-            file.write(f'{second_digit}\n')
         if len(last_digit) > 6:
             last_digit.pop()
         if len(last_two_values) > 2:
             last_two_values.pop()
-        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) < 2:
-            wins += 1
-            print(f"Number of wins: {wins}")
-        else:
-            loses  += 1
+        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2:
+            loses += 1
             print(f"Number of loses: {loses}")
-        if wins >= 3 and loses == 0 or wins // loses <= 3:
-            break
+            with open(new_file, 'a') as file:
+                file.write(f"Number of loses: {loses}\n")
+        elif int(last_digit[0]) > 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2:
+            wins  += 1
+            print(f"Number of wins: {wins}")
+            with open(new_file, 'a') as file:
+                file.write(f"Number of wins: {wins}\n")
+        try:
+            if loses > 0 and wins == 0:
+                continue
+            if (wins > 3 and loses == 0) or wins // loses <= 3:
+                break
+        except ZeroDivisionError:
+            continue
         count += 1
 
 time.sleep(10)

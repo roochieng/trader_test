@@ -119,8 +119,8 @@ while count < 50000:
         print(second_digit)
         last_digit.insert(0, second_digit)
         with open(new_file, 'a') as file:
-            file.write(f'{second_digit}\n')
-        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) < 2:
+            file.write(f'trade value: {last_two_values[0]}, last digit: {second_digit}\n')
+        if int(last_digit[0]) == 0 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0:
             purchase()
             close_bet_window()
             with open(new_file, 'a') as file:
@@ -129,12 +129,12 @@ while count < 50000:
             last_digit.pop()
         if len(last_two_values) > 2:
             last_two_values.pop()
-        if int(last_digit[0]) < 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) < 2 and int(last_digit[5]) < 2:
+        if int(last_digit[0]) < 1 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0 and int(last_digit[3]) == 0:
             loses += 1
             print(f"Number of loses: {loses}")
             with open(new_file, 'a') as file:
                 file.write(f"Number of loses: {loses}\n")
-        elif int(last_digit[0]) > 2 and int(last_digit[1]) < 2 and int(last_digit[2]) < 2 and int(last_digit[3]) < 2 and int(last_digit[4]) < 2 and int(last_digit[5]) < 2:
+        elif int(last_digit[0]) > 1 and int(last_digit[1]) == 0 and int(last_digit[2]) == 0 and int(last_digit[3]) == 0:
             wins  += 1
             print(f"Number of wins: {wins}")
             with open(new_file, 'a') as file:
